@@ -1,0 +1,30 @@
+{
+    "development": {
+        "name": "development",
+        "database": {
+            "host": "localhost",
+            "name": "jkidb",
+            "user": "JkInfinityEmpeniosDev",
+            "password": "Jk201015",
+            "pool": {
+                "max": 20,
+                "min": 10,
+                "idleTimeoutMillis": 30000
+            }
+        }
+    },
+    "production": {
+        "name": "production",
+        "database": {
+            "host": "HOST_PROD",
+            "name": "BD_PROD",
+            "user": "USR_PROD",
+            "password": "PASS_PROD",
+            "pool": {
+                "max": 20,
+                "min": 10,
+                "idleTimeoutMillis": 30000
+            }
+        }
+    }
+}
