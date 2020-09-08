@@ -25,13 +25,13 @@ module.exports.Search = async (req) => {
             console.log("Conexión cerrada");
 
             if (error) {
-                reject(
+                resolve(
                     CreateResponse(Status._500, error)
                 );
             }
 
             if (!rows || rows === null || rows === undefined || !rows.length) {
-                reject(
+                resolve(
                     CreateResponse(Status._400, null)
                 );
             }
@@ -44,12 +44,11 @@ module.exports.Search = async (req) => {
 }
 
 
-module.exports.Create = async (req) => {
+module.exports.Create = async (params) => {
     var connection = Mysql.createConnection(global.gConfig.database);
     var database = global.gConfig.database.name;
 
-    var post  = req.body;
-    Object.assign(post, {codigo: uuid.v4()});
+    Object.assign(params, {codigo: uuid.v4()});
     var query = `INSERT INTO ${database}.identificaciones SET ?`;
     
     return await new Promise((resolve, reject) => {
@@ -62,7 +61,7 @@ module.exports.Create = async (req) => {
             console.log("Conexión cerrada");
 
             if (error) {
-                reject(
+                resolve(
                     CreateResponse(Status._500, error)
                 );
             }
@@ -94,13 +93,13 @@ module.exports.Update = async (req) => {
             console.log("Conexión cerrada");
 
             if (error) {
-                reject(
+                resolve(
                     CreateResponse(Status._500, error)
                 );
             }
 
             if (!results.affectedRows && !results.changedRows) {
-                reject(
+                resolve(
                     CreateResponse(Status._400, null)
                 );
             }
@@ -130,13 +129,13 @@ module.exports.Remove = async (req) => {
             console.log("Conexión cerrada");
 
             if (error) {
-                reject(
+                resolve(
                     CreateResponse(Status._500, error)
                 );
             }
 
             if (!results.affectedRows && !results.changedRows) {
-                reject(
+                resolve(
                     CreateResponse(Status._400, null)
                 );
             }

@@ -15,7 +15,7 @@ module.exports.Search = async (req) => {
 
     let query = `SELECT * FROM ${database}.usuarios ${where}`;
     
-    return await new Promise((resolve) => {
+    return await new Promise((resolve, reject) => {
         connection.connect();
         console.log("\nConexión establecida");
 
@@ -25,13 +25,13 @@ module.exports.Search = async (req) => {
             console.log("Conexión cerrada");
 
             if (error) {
-                reject(
+                resolve(
                     CreateResponse(Status._500, error)
                 );
             }
 
             if (!rows || rows === null || rows === undefined || !rows.length) {
-                reject(
+                resolve(
                     CreateResponse(Status._400, null)
                 );
             }
@@ -61,7 +61,7 @@ module.exports.Create = async (params) => {
             console.log("Conexión cerrada");
 
             if (error) {
-                reject(
+                resolve(
                     CreateResponse(Status._500, error)
                 );
             }
@@ -92,13 +92,13 @@ module.exports.Update = async (req) => {
             console.log("Conexión cerrada");
 
             if (error) {
-                reject(
+                resolve(
                     CreateResponse(Status._500, error)
                 );
             }
 
             if (!results.affectedRows && !results.changedRows) {
-                reject(
+                resolve(
                     CreateResponse(Status._400, null)
                 );
             }
@@ -128,13 +128,13 @@ module.exports.Remove = async (req) => {
             console.log("Conexión cerrada");
 
             if (error) {
-                reject(
+                resolve(
                     CreateResponse(Status._500, error)
                 );
             }
 
             if (!results.affectedRows && !results.changedRows) {
-                reject(
+                resolve(
                     CreateResponse(Status._400, null)
                 );
             }
