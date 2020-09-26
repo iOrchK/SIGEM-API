@@ -2,150 +2,124 @@ var CreateResponse = require("../services/response");
 var Status = require("../config/utils/status.json");
 var Mysql = require("mysql");
 var uuid = require("uuid");
-require('../config/conection');
+require("../config/conection");
 
 module.exports.Search = async (req) => {
-    var connection = Mysql.createConnection(global.gConfig.database);
-    var database = global.gConfig.database.name;
+  var connection = Mysql.createConnection(global.gConfig.database);
+  var database = global.gConfig.database.name;
 
-    let where = "";
-    if (req.query.id_cliente) {
-        where = `WHERE id_cliente = ${req.query.id_cliente}`;
-    }
+  let where = "";
+  if (req.query.id_cliente) {
+    where = `WHERE id_cliente = ${req.query.id_cliente}`;
+  }
 
-    let query = `SELECT * FROM ${database}.clientes ${where}`;
-    
-    return await new Promise((resolve) => {
-        connection.connect();
-        console.log("\nConexión establecida");
+  let query = `SELECT * FROM ${database}.clientes ${where}`;
 
-        console.log(`Ejecutando consulta: ${query}`);
-        connection.query(query, (error, rows, fields) => {
-            connection.end();
-            console.log("Conexión cerrada");
+  return await new Promise((resolve) => {
+    connection.connect();
+    console.log("\nConexión establecida");
 
-            if (error) {
-                resolve(
-                    CreateResponse(Status._500, error)
-                );
-            }
+    console.log(`Ejecutando consulta: ${query}`);
+    connection.query(query, (error, rows, fields) => {
+      connection.end();
+      console.log("Conexión cerrada");
 
-            if (!rows || rows === null || rows === undefined || !rows.length) {
-                resolve(
-                    CreateResponse(Status._400, null)
-                );
-            }
+      if (error) {
+        resolve(CreateResponse(Status._500, error));
+      }
 
-            resolve(
-                CreateResponse(Status._200, rows)
-            );
-        });
+      if (!rows || rows === null || rows === undefined || !rows.length) {
+        resolve(CreateResponse(Status._400, null));
+      }
+
+      resolve(CreateResponse(Status._200, rows));
     });
-}
-
+  });
+};
 
 module.exports.Create = async (params) => {
-    var connection = Mysql.createConnection(global.gConfig.database);
-    var database = global.gConfig.database.name;
+  var connection = Mysql.createConnection(global.gConfig.database);
+  var database = global.gConfig.database.name;
 
-    params = params.body // temp
-    // Object.assign(params, {codigo: uuid.v4()});
-    var query = `INSERT INTO ${database}.clientes SET ?`;
-    
-    return await new Promise((resolve) => {
-        connection.connect();
-        console.log("\nConexión establecida");
+  params = params.body; // temp
+  // Object.assign(params, {codigo: uuid.v4()});
+  var query = `INSERT INTO ${database}.clientes SET ?`;
 
-        console.log(`Ejecutando consulta: ${query} ${JSON.stringify(params)}`);
-        connection.query(query, params, (error, results, fields) => {
-            connection.end();
-            console.log("Conexión cerrada");
+  return await new Promise((resolve) => {
+    connection.connect();
+    console.log("\nConexión establecida");
 
-            if (error) {
-                resolve(
-                    CreateResponse(Status._500, error)
-                );
-            }
+    console.log(`Ejecutando consulta: ${query} ${JSON.stringify(params)}`);
+    connection.query(query, params, (error, results, fields) => {
+      connection.end();
+      console.log("Conexión cerrada");
 
-            console.log(`Resultado de la consulta: ${JSON.stringify(results)}`);
+      if (error) {
+        resolve(CreateResponse(Status._500, error));
+      }
 
-            resolve(
-                CreateResponse(Status._201, results)
-            );
-        });
+      console.log(`Resultado de la consulta: ${JSON.stringify(results)}`);
+
+      resolve(CreateResponse(Status._201, results));
     });
-}
-
+  });
+};
 
 module.exports.Update = async (req) => {
-    var connection = Mysql.createConnection(global.gConfig.database);
-    var database = global.gConfig.database.name;
+  var connection = Mysql.createConnection(global.gConfig.database);
+  var database = global.gConfig.database.name;
 
-    var post  = req.body;
-    var query = `UPDATE ${database}.clientes SET ? WHERE id_cliente = ${post.id_cliente}`;
-    
-    return await new Promise((resolve) => {
-        connection.connect();
-        console.log("\nConexión establecida");
+  var post = req.body;
+  var query = `UPDATE ${database}.clientes SET ? WHERE id_cliente = ${post.id_cliente}`;
 
-        console.log(`Ejecutando consulta: ${query} ${JSON.stringify(post)}`);
-        connection.query(query, post, async (error, results, fields) => {
-            connection.end();
-            console.log("Conexión cerrada");
+  return await new Promise((resolve) => {
+    connection.connect();
+    console.log("\nConexión establecida");
 
-            if (error) {
-                resolve(
-                    CreateResponse(Status._500, error)
-                );
-            }
+    console.log(`Ejecutando consulta: ${query} ${JSON.stringify(post)}`);
+    connection.query(query, post, async (error, results, fields) => {
+      connection.end();
+      console.log("Conexión cerrada");
 
-            if (!results.affectedRows && !results.changedRows) {
-                resolve(
-                    CreateResponse(Status._400, null)
-                );
-            }
-            console.log(`Resultado de la consulta: ${JSON.stringify(results)}`);
+      if (error) {
+        resolve(CreateResponse(Status._500, error));
+      }
 
-            resolve(
-                CreateResponse(Status._202, results)
-            );
-        });
+      if (!results.affectedRows && !results.changedRows) {
+        resolve(CreateResponse(Status._400, null));
+      }
+      console.log(`Resultado de la consulta: ${JSON.stringify(results)}`);
+
+      resolve(CreateResponse(Status._202, results));
     });
-}
-
+  });
+};
 
 module.exports.Remove = async (req) => {
-    var connection = Mysql.createConnection(global.gConfig.database);
-    var database = global.gConfig.database.name;
+  var connection = Mysql.createConnection(global.gConfig.database);
+  var database = global.gConfig.database.name;
 
-    var query = `DELETE FROM ${database}.clientes WHERE id_cliente = ${req.query.id_cliente}`;
-    
-    return await new Promise((resolve) => {
-        connection.connect();
-        console.log("\nConexión establecida");
-    
-        console.log(`Ejecutando consulta: ${query}`);
-        connection.query(query, (error, results, fields) => {
-            connection.end();
-            console.log("Conexión cerrada");
+  var query = `DELETE FROM ${database}.clientes WHERE id_cliente = ${req.query.id_cliente}`;
 
-            if (error) {
-                resolve(
-                    CreateResponse(Status._500, error)
-                );
-            }
+  return await new Promise((resolve) => {
+    connection.connect();
+    console.log("\nConexión establecida");
 
-            if (!results.affectedRows && !results.changedRows) {
-                resolve(
-                    CreateResponse(Status._400, null)
-                );
-            }
-            console.log(`Resultado de la consulta: ${JSON.stringify(results)}`);
+    console.log(`Ejecutando consulta: ${query}`);
+    connection.query(query, (error, results, fields) => {
+      connection.end();
+      console.log("Conexión cerrada");
 
-            resolve(
-                CreateResponse(Status._203, results)
-            );
-        });
+      if (error) {
+        resolve(CreateResponse(Status._500, error));
+      }
+
+      if (!results.affectedRows && !results.changedRows) {
+        resolve(CreateResponse(Status._400, null));
+      }
+      console.log(`Resultado de la consulta: ${JSON.stringify(results)}`);
+
+      resolve(CreateResponse(Status._203, results));
     });
-}
-
+  });
+};
