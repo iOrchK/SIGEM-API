@@ -1,0 +1,21 @@
+{
+    "100": "Campos inválidos",
+    "101": "Usuario y/o contraseña inválidos",
+
+    "200": "Consulta exitosa",
+    "201": "Registro creado con éxito",
+    "202": "Registro actualizado con éxito",
+    "203": "Registro eliminado con éxito",
+
+    "400": "No se encontraron registros",
+    "401": "Sesión finalizada",
+    "402": "Sesión inválida",
+    "404": "No se encontró el recurso",
+    "405": "Schema inválido",
+
+    "500": "A ocurrido un error en la consulta",
+    "501": "A ocurrido un error al crear el registro",
+    "502": "A ocurrido un error al actualizar el registro",
+    "503": "A ocurrido un error al eliminar el registro",
+    "504": "A ocurrido un error inesperado"
+}
