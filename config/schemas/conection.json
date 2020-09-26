@@ -3,7 +3,7 @@
         "name": "development",
         "database": {
             "host": "localhost",
-            "name": "jkidb",
+            "name": "sigem",
             "user": "JkInfinityEmpeniosDev",
             "password": "Jk201015",
             "pool": {
