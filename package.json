@@ -1,8 +1,8 @@
 {
-  "name": "api-express",
+  "name": "sigem-api",
   "version": "1.0.0",
-  "description": "API express",
-  "author": "iOrchKary",
+  "description": "API SIGEM",
+  "author": "Jorge Chable",
   "license": "ISC",
   "private": true,
   "scripts": {
